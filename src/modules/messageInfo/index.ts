@@ -1,5 +1,6 @@
 import { Dispatcher, filters } from "@mtcute/dispatcher";
-import { md } from "@mtcute/node";
+import { md } from "@mtcute/markdown-parser";
+import { Module } from "..";
 
 const dp = Dispatcher.child();
 
@@ -7,7 +8,7 @@ dp.onNewMessage(filters.command(["id", "messageid"]) , async (ctx) => {
     if (ctx.replyToMessage) {
         await ctx.replyText(`__**Message id:**__ ${ctx.replyToMessage.id}`);
     } else {
-        await ctx.replyText(`❌ You have to **reply** to a message to get its id!`);
+        await ctx.replyText(md`❌ You have to **reply** to a message to get its id!`);
     }
 });
 
@@ -45,4 +46,11 @@ dp.onNewMessage(filters.command(["fileid", "fid"]), async (ctx) => {
 
 });
 
-export default dp;
+const mod: Module  = {
+    name: "Message Info",
+    help: "Get info about messages, users, chats and files",
+    dispatchers: [dp],
+    type: "extra"
+};
+
+export default mod;

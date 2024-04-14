@@ -5,9 +5,11 @@
   "main": "main.js",
   "scripts": {
     "start": "npx tsc --project tsconfig.json && node dist",
-    "test": "npx tsc --project tsconfig.test.json && node dist-test/main.js",
+    "test": "npx tsc --project tsconfig.test.json && node dist-test",
     "compile": "npx tsc --project tsconfig.json",
-    "compile-test": "npx tsc --project tsconfig.test.json"
+    "compile-test": "npx tsc --project tsconfig.test.json",
+    "version": "npx standard-version",
+    "approve": "rm -rf src/* && cp -r test/* src/ && npx tsc --project tsconfig.json"
   },
   "author": "Xitonight",
   "license": "GPL-3.0-only",
