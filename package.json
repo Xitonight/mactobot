@@ -2,10 +2,10 @@
   "name": "xitpbpt",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "npx tsc --project tsconfig.json && node dist",
-    "test": "npx tsc --project tsconfig.test.json && node dist-test",
+    "test": "npx tsc --project tsconfig.test.json && node dist-test/main.js",
     "compile": "npx tsc --project tsconfig.json",
     "compile-test": "npx tsc --project tsconfig.test.json"
   },
@@ -22,7 +22,7 @@
     "mongodb": "^6.5.0"
   },
   "imports": {
-    "#bot/*": "./bot/*.js"
+    "#bot/*": "./src/*"
   },
   "type": "module",
   "repository": {
