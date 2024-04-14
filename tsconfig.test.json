@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig to read more about this file */
+    "rootDir": "./test",                                 /* Specify the root folder within your source files. */
+    "paths": {
+      "#bot/*": ["test/*"]
+    },                                                   /* Specify a set of entries that re-map imports to additional lookup locations. */
+    "outDir": "./dist-test",                             /* Specify an output folder for all emitted files. */
+  },
+  "include": ["test/**/*.ts"],                           /* Specify the root files and the compiler options in ./test */
+}

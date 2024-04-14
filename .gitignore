@@ -1,0 +1,24 @@
+# Node modules
+node_modules/
+
+# Build output
+/dist
+/dist-test
+
+# Test directory
+/test
+
+# Log files
+npm-debug.log*
+
+# Editor settings
+/.vscode
+
+# Environment variables
+.env
+
+# TypeScript cache
+.tsbuildinfo
+
+# Session strings
+/sessions

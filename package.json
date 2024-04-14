@@ -1,0 +1,32 @@
+{
+  "name": "xitpbpt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsc --project tsconfig.json && node dist",
+    "test": "npx tsc --project tsconfig.test.json && node dist-test",
+    "compile": "npx tsc --project tsconfig.json",
+    "compile-test": "npx tsc --project tsconfig.test.json"
+  },
+  "author": "Xitonight",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@mtcute/dispatcher": "^0.10.0",
+    "@mtcute/node": "^0.10.0",
+    "dotenv": "^16.4.5",
+    "mongodb": "^6.5.0"
+  },
+  "imports": {
+    "#bot/*": "./bot/*.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xitonight/mactobot.git"
+  }
+}
