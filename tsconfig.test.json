@@ -3,7 +3,6 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
     "rootDir": "./test",                                 /* Specify the root folder within your source files. */
-    "moduleResolution": "bundler",
     "outDir": "./dist-test",                             /* Specify an output folder for all emitted files. */
   },
   "include": ["test/**/*.ts"],                           /* Specify the root files and the compiler options in ./test */
