@@ -22,3 +22,7 @@ npm-debug.log*
 
 # Session strings
 /sessions
+/secrets
+
+# Todo's
+/todo
