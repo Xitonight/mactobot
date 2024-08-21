@@ -1,0 +1,8 @@
+/*
+fish
+beg
+job
+sell
+buy
+garden
+*/

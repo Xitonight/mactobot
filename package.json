@@ -2,29 +2,34 @@
   "name": "xitpbpt",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "start": "rm -rf dist/ && npx tsc --project tsconfig.json && node dist",
-    "test": "rm -rf dist-test/ && npx tsc --project tsconfig.test.json && node dist-test",
-    "compile": "rm -rf dist/ && npx tsc --project tsconfig.json",
-    "compile-test": "rm -rf dist-test/ && npx tsc --project tsconfig.test.json",
+    "start": "clear && rm -rf dist/ && npx tsc --project tsconfig.json && node dist",
+    "test": "clear && rm -rf dist-test/ && npx tsc --project tsconfig.test.json && node dist-test",
+    "compile": "clear && rm -rf dist/ && npx tsc --project tsconfig.json",
+    "compile-test": "clear && rm -rf dist-test/ && npx tsc --project tsconfig.test.json",
     "approve": "rm -rf src/* && cp -r test/* src/",
     "apply": "rm -rf test/* && cp -r src/* test/"
   },
   "author": "Xitonight",
   "license": "GPL-3.0-only",
   "devDependencies": {
-    "@types/node": "^20.12.7",
-    "typescript": "^5.4.5"
+    "@types/node": "^20.16.1",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@mtcute/dispatcher": "^0.10.0",
-    "@mtcute/node": "^0.10.0",
+    "@google-cloud/local-auth": "^3.0.1",
+    "@mtcute/crypto-node": "^0.13.0",
+    "@mtcute/dispatcher": "^0.13.4",
+    "@mtcute/node": "^0.13.0",
+    "@types/inquirer": "^9.0.7",
     "dotenv": "^16.4.5",
-    "mongodb": "^6.5.0"
+    "googleapis": "^137.1.0",
+    "inquirer": "^9.3.6",
+    "mongodb": "^6.8.0"
   },
   "imports": {
-    "#bot/*": "./src/*"
+    "#bot/*": "./dist/*"
   },
   "type": "module",
   "repository": {
