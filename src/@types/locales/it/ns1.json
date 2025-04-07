@@ -1,0 +1,38 @@
+{
+  "greetings": {
+    "welcome": {
+      "settings": "**⚙️ Impostazioni messaggio di benvenuto**\n\n- Accogliendo i nuovi membri: `{{enabled}}`",
+      "default": "Ciao {user_full}! Benvenuto in {chat_name}!",
+      "usage": "- Usa `/goodbye` per visualizzare le impostazioni del messaggio di benvenuto.\n- Usa `/welcome <on|off>` per attivare o disattivare il messaggio di benvenuto.\n - Usa `/welcome set` per cambiare il corrente messaggio di benvenuto.\n - Usa `/welcome set default` per impostare il messaggio di benvenuto di default.",
+      "message_header": "**🗨️ Messaggio di benvenuto**",
+      "enabled": "**Messaggio di benvenuto abilitato.**",
+      "disabled": "**Messaggio di benvenuto disabilitato.**",
+      "enter_new": "**Perfavore, rispondi a questo messaggio con il nuovo messaggio di benvenuto.**",
+      "reset": "**Messaggio di benvenuto reimpostato a quello di default.**",
+      "set": "**Messaggio di benvenuto impostato correttamente.**"
+    },
+    "goodbye": {
+      "settings": "**⚙️ Impostazioni messaggio di arrivederci**\n\n- Congedando i membri che abbandonano: `{{enabled}}`",
+      "default": "Arrivederci, {user_full}... Speriamo di rivederti presto!",
+      "usage": "- Usa `/goodbye` per visualizzare le impostazioni del messaggio di arrivederci.\n- Usa `/goodbye <on|off>` per attivare o disattivare il messaggio di arrivederci.\n - Usa `/goodbye set` per cambiare il corrente messaggio di arrivederci.\n - Usa `/goodbye set default` per impostare il messaggio di arrivederci di arrivederci.",
+      "message_header": "**🗨️ Messaggio di arrivederci**",
+      "enabled": "**Messaggio di arrivederci abilitato.**",
+      "disabled": "**Messaggio di arrivederci disabilitato.**",
+      "enter_new": "**Perfavore, rispondi a questo messaggio con il nuovo messaggio di arrivederci.**",
+      "reset": "**Messaggio di arrivederci reimpostato a quello di default.**",
+      "set": "**Messaggio di arrivederci impostato correttamente.**"
+    }
+  },
+  "language": {
+    "settings": "**Lingua corrente:** `{{lang}}`",
+    "usage": "- Usa `/language` per vedere la lingua corrente e quelle supportate.\n- Usa `/language <language>` per cambiare la lingua corrente.",
+    "supported": "Lingue supportate:\n- 🇬🇧 `en`\n- 🇮🇹 `it`",
+    "set": "**Lingua impostata correttamente.**"
+  },
+  "errors": {
+    "too_many_args": "**Errore: sono stati forniti troppi argomenti.**",
+    "unknown_args": "**Errore: sono stati forniti argomenti sconosciuti.**",
+    "unsupported_lang": "**Errore: lingua non disponibile**",
+    "custom": "**Errore:**\n{{err}}"
+  }
+}

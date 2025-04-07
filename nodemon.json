@@ -1,0 +1,5 @@
+{
+  "watch": ["src", "test", "locales"],
+  "ext": "ts",
+  "exec": "tsx ."
+}
