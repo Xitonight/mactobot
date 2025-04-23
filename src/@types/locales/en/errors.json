@@ -1,0 +1,38 @@
+{
+  "common": {
+    "too_many_args": "**Error: too many arguments.**",
+    "missing_args": "**Error: missing argument(s).**",
+    "unknown_args": "**Error: unknown argument(s).**",
+    "deleting_service_message": "**Error deleting service message.**",
+    "deleting_message": "**Error deleting message.**",
+    "custom": "**Error:**\n{{err}}"
+  },
+
+  "language": {
+    "unsupported_lang": "**Error: unsupported language**"
+  },
+
+  "welcome": {
+    "resetting_welcome_message": "**Error resetting welcome message.**",
+    "setting_welcome_message": "**Error setting welcome message.**",
+    "enabling_welcome_message": "**Error enabling welcome message.**",
+    "disabling_welcome_message": "**Error disabling welcome message.**",
+    "showing_welcome_message": "**Error showing welcome message.**",
+    "enabling_delete_default": "**Error enabling default welcome message deletion",
+    "disabling_delete_default": "**Error disabling default welcome message deletion"
+  },
+
+  "goodbye": {
+    "resetting_goodbye_message": "**Error resetting goodbye message.**",
+    "setting_goodbye_message": "**Error setting goodbye message.**",
+    "enabling_goodbye_message": "**Error enabling goodbye message.**",
+    "disabling_goodbye_message": "**Error disabling goodbye message.**",
+    "showing_goodbye_message": "**Error showing goodbye message.**",
+    "enabling_delete_default": "**Error enabling default goodbye message deletion",
+    "disabling_delete_default": "**Error disabling default goodbye message deletion"
+  },
+
+  "help": {
+    "unknown_command": "**Error: {{cmd}} command not found.**"
+  }
+}

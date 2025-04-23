@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "default": "- Use `/welcome` to see the current settings for the welcome module.\n- Use `/welcome <on|off>` to enable or disable the welcome message.",
+    "set": "- Use `/welcome set` to change the current welcome message.\n- Use `/welcome set default` to set the default welcome message.",
+    "show": "- Use `/welcome show` to show the current welcome message.",
+    "delete_default": "- Use `/welcome delete default <on|off>` to enable or disable automatic deletion for default welcome messages (`user joined the group`)."
+  },
+
+  "goodbye": {
+    "default": "- Use `/goodbye` to see the current settings for the goodbye module.\n- Use `/goodbye <on|off>` to enable or disable the goodbye message.",
+    "set": "- Use `/goodbye set` to change the current goodbye message.\n- Use `/goodbye set default` to set the default goodbye message.",
+    "show": "- Use `/goodbye show` to show the current goodbye message.",
+    "delete_default": "- Use `/goodbye delete default <on|off>` to enable or disable automatic deletion for default goodbye messages (`user left the group`)."
+  },
+
+  "language": {
+    "default": "- Use `/language` to see the current language and the supported ones.\n- Use `/language <language>` to change the current language."
+  },
+
+  "help": {
+    "default": "- Use `/help <command>` to see the manual for that command."
+  }
+}

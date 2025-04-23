@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "default": "- Usa `/welcome` per consultare le impostazioni attuali del modulo di benvenuto.\n- Usa `/welcome <on|off>` per attivare o disattivare il messaggio di benvenuto.",
+    "set": "- Usa `/welcome set` per modificare il messaggio di benvenuto attuale.\n- Usa `/welcome set default` per reimpostare il messaggio predefinito.",
+    "show": "- Usa `/welcome show` per visualizzare il messaggio di benvenuto attuale.",
+    "delete_default": "- Usa `/welcome delete default <on|off>` per attivare/disattivare l'eliminazione automatica dei messaggi di benvenuto predefiniti di Telegram (`*utente* è entrato nel gruppo`)."
+  },
+
+  "goodbye": {
+    "default": "- Usa `/goodbye` per vedere le impostazioni del modulo abbandono.\n- Usa `/goodbye <on|off>` per attivare o disattivare il messaggio d'uscita.",
+    "set": "- Usa `/goodbye set` per cambiare il messaggio d'uscita attuale.\n- Usa `/goodbye set default` per reimpostare il messaggio predefinito.",
+    "show": "- Usa `/goodbye show` per visualizzare il messaggio d'uscita attuale.",
+    "delete_default": "- Usa `/goodbye delete default <on|off>` per attivare/disattivare l'eliminazione automatica dei messaggi d'uscita predefiniti di Telegram (`*utente* ha abbandonato il gruppo`)."
+  },
+
+  "language": {
+    "default": "- Usa `/language` per vedere la lingua attualmente in uso e quelle supportate.\n- Usa `/language <lingua>` per cambiare la lingua."
+  },
+
+  "man": {
+    "default": "- Usa `/man <comando>` per consultare il manuale per quel comando."
+  }
+}

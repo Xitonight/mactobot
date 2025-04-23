@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -16,10 +17,32 @@ datasource db {
 model Chat {
   id                   BigInt  @id @unique
   welcomeEnabled       Boolean @default(true)
-  welcomeMessage       String?
+  welcomeMessageText   String?
+  welcomeMessageMedia  String?
   deleteDefaultWelcome Boolean @default(false)
   goodbyeEnabled       Boolean @default(true)
-  goodbyeMessage       String?
+  goodbyeMessageText   String?
+  goodbyeMessageMedia  String?
   deleteDefaultGoodbye Boolean @default(false)
   language             String  @default("en")
+
+  users UserInChat[]
+}
+
+model User {
+  id       BigInt  @id @unique
+  username String?
+
+  chats UserInChat[]
+}
+
+model UserInChat {
+  userId  BigInt
+  chatId  BigInt
+  isAdmin Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+  chat Chat @relation(fields: [chatId], references: [id])
+
+  @@id([userId, chatId])
 }

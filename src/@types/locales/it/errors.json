@@ -1,0 +1,38 @@
+{
+  "common": {
+    "too_many_args": "**Errore: troppi argomenti.**",
+    "missing_args": "**Errore: argomento/i mancante/i.**",
+    "unknown_args": "**Errore: argomento/i sconosciuto/i.**",
+    "deleting_service_message": "**Errore durante l'eliminazione del messaggio di servizio.**",
+    "deleting_message": "**Errore durante l'eliminazione del messaggio.**",
+    "custom": "**Errore:**\n{{err}}"
+  },
+
+  "language": {
+    "unsupported_lang": "**Errore: lingua non supportata**"
+  },
+
+  "welcome": {
+    "resetting_welcome_message": "**Errore durante il reset del messaggio di benvenuto.**",
+    "setting_welcome_message": "**Errore durante l'impostazione del messaggio di benvenuto.**",
+    "enabling_welcome_message": "**Errore durante l'attivazione del messaggio di benvenuto.**",
+    "disabling_welcome_message": "**Errore durante la disattivazione del messaggio di benvenuto.**",
+    "showing_welcome_message": "**Errore durante la visualizzazione del messaggio di benvenuto.**",
+    "enabling_delete_default": "**Errore durante l'attivazione dell'eliminazione automatica dei messaggi predefiniti**",
+    "disabling_delete_default": "**Errore durante la disattivazione dell'eliminazione automatica dei messaggi predefiniti**"
+  },
+
+  "goodbye": {
+    "resetting_goodbye_message": "**Errore durante il reset del messaggio di uscita.**",
+    "setting_goodbye_message": "**Errore durante l'impostazione del messaggio di uscita.**",
+    "enabling_goodbye_message": "**Errore durante l'attivazione del messaggio di uscita.**",
+    "disabling_goodbye_message": "**Errore durante la disattivazione del messaggio di uscita.**",
+    "showing_goodbye_message": "**Errore durante la visualizzazione del messaggio di uscita.**",
+    "enabling_delete_default": "**Errore durante l'attivazione dell'eliminazione automatica dei messaggi predefiniti**",
+    "disabling_delete_default": "**Errore durante la disattivazione dell'eliminazione automatica dei messaggi predefiniti**"
+  },
+
+  "man": {
+    "unknown_command": "**Errore: {cmd} non è un comando valido.**"
+  }
+}

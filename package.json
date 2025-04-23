@@ -6,7 +6,7 @@
   "scripts": {
     "interface": "i18next-resources-for-ts interface -i ./src/@types/locales/en -o ./src/@types/resources.d.ts",
     "toc": "i18next-resources-for-ts toc -i ./src/@types/locales/en -o ./src/@types/resources.ts",
-    "watch": "nodemon",
+    "watch": "~/.pgadmin4/bin/pgadmin4 &> /dev/null & nodemon",
     "dev": "tsx ."
   },
   "keywords": [],

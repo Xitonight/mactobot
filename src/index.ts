@@ -1,68 +1,68 @@
-import { TelegramClient } from "@mtcute/node";
-import { Dispatcher, MemoryStateStorage } from "@mtcute/dispatcher";
+import { md, SqliteStorage, TelegramClient } from "@mtcute/node";
+import { Dispatcher, filters, SqliteStateStorage } from "@mtcute/dispatcher";
 import * as dotenv from "dotenv";
-import { redis } from "./databases/redis.ts";
-import { prisma, dp as defaults } from "./databases/prisma.ts";
-
-import {
-  Welcome,
-  Goodbye,
-  Start,
-  Settings,
-  Language,
-  Unparse,
-} from "./modules";
-import { dp as test, dp1 as test1, scene } from "../test/scenes.ts";
+import { getModules } from "./modules";
+import path from "path";
+import i18next from "./utils/i18n";
+import { getLang } from "./utils/language";
 
 dotenv.config();
+
+const storage = new SqliteStorage("storage/bot");
 
 const tg = new TelegramClient({
   apiId: Number(process.env.API_ID),
   apiHash: `${process.env.API_HASH}`,
-  storage: "storage/bot",
+  storage: storage,
 });
 
-const dp = Dispatcher.for<any>(tg, { storage: new MemoryStateStorage() });
-const modules = [Welcome, Goodbye, Start, Settings, Language, Unparse];
+const dp = Dispatcher.for<any>(tg, {
+  storage: SqliteStateStorage.from(storage),
+});
 
-for (const mod of modules) {
-  for (const dispatcher of Object.values(mod.dispatchers)) {
+const modules = await getModules(
+  ["core", "extra", "debug"].map((type) =>
+    path.join(import.meta.dirname, "modules", type),
+  ),
+);
+
+for (const mod of Object.values(modules)) {
+  console.log(mod.path);
+  for (const dispatcher of mod.dispatchers) {
     dp.extend(dispatcher);
   }
 }
 
-dp.extend(defaults);
-dp.extend(test);
-dp.extend(test1);
+dp.onNewMessage(filters.command(/(enable|disable)mod/), async (upd) => {
+  const lng = await getLang(upd.chat.id);
 
-dp.addScene(scene);
+  if (!upd.command[2]) {
+    await upd.replyText(
+      md(i18next.t("errors:common.missing_args", { lng: lng })),
+    );
+    return;
+  }
 
-async function startBot() {
-  const self = await tg.start({
-    botToken: process.env.BOT_TOKEN!,
-  });
+  if (upd.command[3]) {
+    await upd.replyText(
+      md(i18next.t("errors:common.too_many_args", { lng: lng })),
+    );
+    return;
+  }
 
-  console.log(`Bot started as ${self.username}`);
-
-  // Graceful shutdown handling
-  process.on("SIGINT", async () => {
-    console.log("Shutting down...");
-    await prisma.$disconnect();
-    await redis.disconnect();
-    process.exit(0);
-  });
-
-  process.on("SIGTERM", async () => {
-    console.log("Shutting down...");
-    await prisma.$disconnect();
-    await redis.disconnect();
-    process.exit(0);
-  });
-}
-
-startBot().catch(async (error) => {
-  console.error("Error starting bot:", error);
-  await prisma.$disconnect();
-  await redis.disconnect();
-  process.exit(1);
+  const enabling = upd.command[1] === "enable";
+  modules[upd.command[1]].enabled = enabling;
+  await upd.replyText(
+    md(
+      i18next.t(enabling ? "enablemod.success" : "disablemod.success", {
+        lng: lng,
+      }),
+    ),
+  );
 });
+
+const self = await tg.start({
+  botToken: process.env.BOT_TOKEN!,
+});
+
+console.log(`Bot started as ${self.username}`);
