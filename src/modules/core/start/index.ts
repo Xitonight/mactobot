@@ -3,7 +3,7 @@ import { Dispatcher, filters } from "@mtcute/dispatcher";
 import { BotKeyboard } from "@mtcute/node";
 
 const dp = Dispatcher.child();
-const mod: Module = new Module("Start", "core");
+const mod: Module = new Module(import.meta.dirname);
 
 const startMarkup = BotKeyboard.builder()
   .push(

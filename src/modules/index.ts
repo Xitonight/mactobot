@@ -1,27 +1,45 @@
 import { Dispatcher, UpdateFilter } from "@mtcute/dispatcher";
 import { readdirSync } from "fs";
-import path from "path";
+import { basename, dirname, join } from "path";
 
 export class Module {
   readonly name: string;
-  readonly type: "module" | "core" | "debug";
+  readonly type: "extra" | "core" | "debug";
   dispatchers: Dispatcher<any>[] = [];
   enabled: boolean;
-  path?: string;
 
+  constructor(params: {
+    name: string;
+    type?: "extra" | "core" | "debug";
+    enabled?: boolean;
+  });
+  constructor(path: string);
   constructor(
-    name: string,
-    type: "module" | "core" | "debug" = "core",
-    enabled: boolean = true,
-    path?: string,
+    pathOrParams:
+      | {
+          name: string;
+          type?: "extra" | "core" | "debug";
+          enabled?: boolean;
+        }
+      | string,
   ) {
-    if (type === "core" && !enabled) {
-      throw new Error("Core modules cannot be disabled.");
+    if (typeof pathOrParams === "string") {
+      this.name = basename(pathOrParams);
+      const type = basename(dirname(pathOrParams));
+      if (type !== "core" && type !== "extra" && type !== "debug") {
+        throw new Error(`Invalid module type: ${type}`);
+      } else {
+        this.type = type;
+      }
+      this.enabled = true;
+    } else {
+      if (pathOrParams.type === "core" && !pathOrParams.enabled) {
+        throw new Error("Core modules cannot be disabled.");
+      }
+      this.name = pathOrParams.name;
+      this.type = pathOrParams.type || "extra";
+      this.enabled = pathOrParams.enabled || true;
     }
-    this.path = path;
-    this.name = name;
-    this.type = type;
-    this.enabled = enabled;
   }
 
   isEnabled = (): UpdateFilter<any> => () => {
@@ -51,7 +69,7 @@ export const getModules = async (
     const folders = readdirSync(dir);
 
     for (const folder of folders) {
-      const module: Module = await import(path.join(dir, folder)).then(
+      const module: Module = await import(join(dir, folder)).then(
         (mod) => mod.default,
       );
       if (

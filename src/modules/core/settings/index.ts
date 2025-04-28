@@ -1,8 +1,9 @@
 import { Dispatcher, filters, PropagationAction } from "@mtcute/dispatcher";
+import { BotKeyboard } from "@mtcute/node";
 import { md } from "@mtcute/markdown-parser";
+
 import i18next from "@utils/i18n";
 import { prisma } from "@utils/databases";
-import { BotKeyboard } from "@mtcute/node";
 import { Module } from "@modules/index";
 
 interface settingsState {
@@ -10,7 +11,7 @@ interface settingsState {
 }
 
 const dp = Dispatcher.child<settingsState>();
-const mod = new Module("settings", "core");
+const mod = new Module(import.meta.dirname);
 
 dp.onNewMessage(
   filters.and(filters.command("settings"), filters.chat("group")),
@@ -25,20 +26,20 @@ dp.onNewMessage(
     const markup = BotKeyboard.builder()
       .push(
         BotKeyboard.callback(
-          i18next.t("settings.buttons.open_here", { lng: lng }),
+          i18next.t("ns1:settings.buttons.open_here", { lng: lng }),
           "open_here",
         ),
       )
       .push(
         BotKeyboard.callback(
-          i18next.t("settings.buttons.open_pm", { lng: lng }),
+          i18next.t("ns1:settings.buttons.open_pm", { lng: lng }),
           "open_pm",
         ),
       )
       .asInline();
 
     const messageId = await upd
-      .replyText(md(i18next.t("settings.where_to_open", { lng: lng })), {
+      .replyText(md(i18next.t("ns1:settings.where_to_open", { lng: lng })), {
         replyMarkup: markup,
       })
       .then((msg) => msg.id);
@@ -69,7 +70,7 @@ dp.onCallbackQuery(
     await upd.client.sendText(
       upd.user.id,
       md(
-        i18next.t("settings.home_page", {
+        i18next.t("ns1:settings.home_page", {
           lng: lng,
           chat: `[${upd.chat.displayName}](${await upd.getMessage().then((msg) => msg?.link)})`,
         }),

@@ -1,9 +1,11 @@
 import { Dispatcher, filters, PropagationAction } from "@mtcute/dispatcher";
-import { prisma } from "@utils/databases";
+import { getChat, prisma } from "@utils/databases";
 import { md } from "@mtcute/markdown-parser";
 import i18next from "@utils/i18n";
 import { InputMedia } from "@mtcute/node";
-import { Module } from "@modules/.";
+import { Module } from "@modules/index";
+import { replyMissingArgs, replyUnknownArgs } from "@utils/errors";
+import { getLang } from "@utils/language";
 
 interface goodbyeState {
   enteringNewGoodbyeMessage: boolean;
@@ -11,33 +13,20 @@ interface goodbyeState {
 }
 
 const dp = Dispatcher.child<goodbyeState>();
-const mod = new Module("goodbye", "module");
+const mod = new Module(import.meta.dirname);
 
-/* -------------------------------- /goodbye handler
- */
 dp.onNewMessage(filters.command("goodbye"), async (upd, state) => {
-  const lng: string = await prisma.chat
-    .findUnique({
-      where: { id: upd.chat.id },
-      select: { language: true },
-    })
-    .then((chat) => chat?.language as string);
+  const lng = await getLang(upd.chat.id);
 
   /**
    * /goodbye NO ARGS
    * SHOW THE STATE OF THE GOODBYE CMD
    */
   if (!upd.command[1]) {
-    const goodbyeState = await prisma.chat.findUnique({
-      where: { id: upd.chat.id },
-      select: {
-        goodbyeEnabled: true,
-        deleteDefaultGoodbye: true,
-      },
-    });
+    const goodbyeState = await getChat(upd.chat.id);
     await upd.replyText(
       md(
-        i18next.t("goodbye.settings", {
+        i18next.t("ns1:goodbye.settings", {
           lng: lng,
           enable: goodbyeState?.goodbyeEnabled ? "on" : "off",
           deleteDefault: goodbyeState?.deleteDefaultGoodbye ? "on" : "off",
@@ -52,47 +41,23 @@ dp.onNewMessage(filters.command("goodbye"), async (upd, state) => {
   if (upd.command[1] == "delete") {
     const usage = md(i18next.t("usage:goodbye.delete_default", { lng: lng }));
 
-    /**
-     * /goodbye delete NO ARGS
-     * THROW MISSING ARGS
-     */
     if (!upd.command[2]) {
-      await upd.replyText(
-        md`${md(i18next.t("errors:common.missing_args", { lng: lng }))}\n\n${usage}`,
-      );
+      await replyMissingArgs(upd, "usage:goodbye.delete_default");
       return;
     }
 
-    /**
-     * /goodbye delete <unknown arg>
-     * THROW UNKNOWN ARGS
-     */
     if (upd.command[2] != "default") {
-      await upd.replyText(
-        md`${md(i18next.t("errors:common.unknown_args", { lng: lng }))}\n\n${usage}`,
-      );
+      await replyUnknownArgs(upd, "usage:goodbye.delete_default");
       return;
     }
 
-    /**
-     * /goodbye delete default NO ARGS
-     * THROW MISSING ARGS
-     */
     if (!upd.command[3]) {
-      await upd.replyText(
-        md`${md(i18next.t("errors:common.missing_args", { lng: lng }))}\n\n${usage}`,
-      );
+      await replyMissingArgs(upd, "usage:goodbye.delete_default");
       return;
     }
 
-    /**
-     * /goodbye delete default <unknown arg>
-     * THROW UNKNOWN ARGS
-     */
     if (!["on", "off"].includes(upd.command[3])) {
-      await upd.replyText(
-        md`${md(i18next.t("errors:common.unknown_args", { lng: lng }))}\n\n${usage}`,
-      );
+      await replyUnknownArgs(upd, "usage:goodbye.delete_default");
       return;
     }
 
@@ -109,22 +74,15 @@ dp.onNewMessage(filters.command("goodbye"), async (upd, state) => {
 
     const enableDeleteDefault = upd.command[3] === "on";
     const successMessageKey = enableDeleteDefault
-      ? "goodbye.enable_delete_default"
-      : "goodbye.disable_delete_default";
-    const errorMessageKey = enableDeleteDefault
-      ? "errors:goodbye.enabling_delete_default"
-      : "errors:goodbye.disabling_delete_default";
+      ? "ns1:goodbye.enable_delete_default"
+      : "ns1:goodbye.disable_delete_default";
 
-    try {
-      await prisma.chat.update({
-        where: { id: upd.chat.id },
-        data: { deleteDefaultGoodbye: enableDeleteDefault },
-      });
+    await prisma.chat.update({
+      where: { id: upd.chat.id },
+      data: { deleteDefaultGoodbye: enableDeleteDefault },
+    });
 
-      await upd.replyText(md(i18next.t(successMessageKey, { lng: lng })));
-    } catch (err) {
-      await upd.replyText(md(i18next.t(errorMessageKey, { lng: lng })));
-    }
+    await upd.replyText(md(i18next.t(successMessageKey, { lng: lng })));
     return;
   }
 
@@ -139,7 +97,7 @@ dp.onNewMessage(filters.command("goodbye"), async (upd, state) => {
      */
     if (!upd.command[2]) {
       const reply_id = await upd
-        .replyText(md(i18next.t("goodbye.enter_new", { lng: lng })))
+        .replyText(md(i18next.t("ns1:goodbye.enter_new", { lng: lng })))
         .then((msg) => msg.id);
       await state.set(
         { enteringNewGoodbyeMessage: true, reply_id: reply_id },
@@ -170,18 +128,12 @@ dp.onNewMessage(filters.command("goodbye"), async (upd, state) => {
       return;
     }
 
-    try {
-      await prisma.chat.update({
-        where: { id: upd.chat.id },
-        data: { goodbyeMessageText: null, goodbyeMessageMedia: null },
-      });
+    await prisma.chat.update({
+      where: { id: upd.chat.id },
+      data: { goodbyeMessageText: null, goodbyeMessageMedia: null },
+    });
 
-      await upd.replyText(md(i18next.t("goodbye.reset", { lng: lng })));
-    } catch (err) {
-      await upd.replyText(
-        md(i18next.t("errors:goodbye.resetting_goodbye_message", { lng: lng })),
-      );
-    }
+    await upd.replyText(md(i18next.t("ns1:goodbye.reset", { lng: lng })));
     return;
   }
 
@@ -201,32 +153,26 @@ dp.onNewMessage(filters.command("goodbye"), async (upd, state) => {
       return;
     }
 
-    try {
-      const goodbyeMessage = await prisma.chat.findUnique({
-        where: { id: upd.chat.id },
-        select: { goodbyeMessageText: true, goodbyeMessageMedia: true },
-      });
+    const goodbyeMessage = await prisma.chat.findUnique({
+      where: { id: upd.chat.id },
+      select: { goodbyeMessageText: true, goodbyeMessageMedia: true },
+    });
 
-      const defaultMessage = md(i18next.t("goodbye.default", { lng: lng }));
+    const defaultMessage = md(i18next.t("ns1:goodbye.default", { lng: lng }));
 
-      if (goodbyeMessage?.goodbyeMessageMedia) {
-        await upd.replyText(
-          md`${md(i18next.t("goodbye.message_header", { lng: lng }))}`,
-        );
-        await upd.client.sendMedia(
-          upd.chat.id,
-          InputMedia.auto(goodbyeMessage.goodbyeMessageMedia, {
-            caption: goodbyeMessage.goodbyeMessageText || "",
-          }),
-        );
-      } else {
-        await upd.replyText(
-          md`${md(i18next.t("goodbye.message_header", { lng: lng }))}\n\n${goodbyeMessage?.goodbyeMessageText || defaultMessage}`,
-        );
-      }
-    } catch (err) {
+    if (goodbyeMessage?.goodbyeMessageMedia) {
       await upd.replyText(
-        md(i18next.t("errors:goodbye.showing_goodbye_message", { lng: lng })),
+        md`${md(i18next.t("ns1:goodbye.message_header", { lng: lng }))}`,
+      );
+      await upd.client.sendMedia(
+        upd.chat.id,
+        InputMedia.auto(goodbyeMessage.goodbyeMessageMedia, {
+          caption: goodbyeMessage.goodbyeMessageText || "",
+        }),
+      );
+    } else {
+      await upd.replyText(
+        md`${md(i18next.t("ns1:goodbye.message_header", { lng: lng }))}\n\n${goodbyeMessage?.goodbyeMessageText || defaultMessage}`,
       );
     }
     return;
@@ -260,22 +206,18 @@ dp.onNewMessage(filters.command("goodbye"), async (upd, state) => {
 
   const enableGoodbye = upd.command[1] === "on";
   const successMessageKey = enableGoodbye
-    ? "goodbye.enabled"
-    : "goodbye.disabled";
+    ? "ns1:goodbye.enabled"
+    : "ns1:goodbye.disabled";
   const errorMessageKey = enableGoodbye
     ? "errors:goodbye.enabling_goodbye_message"
     : "errors:goodbye.disabling_goodbye_message";
 
-  try {
-    await prisma.chat.update({
-      where: { id: upd.chat.id },
-      data: { goodbyeEnabled: enableGoodbye },
-    });
+  await prisma.chat.update({
+    where: { id: upd.chat.id },
+    data: { goodbyeEnabled: enableGoodbye },
+  });
 
-    await upd.replyText(md(i18next.t(successMessageKey, { lng: lng })));
-  } catch (err) {
-    await upd.replyText(md(i18next.t(errorMessageKey, { lng: lng })));
-  }
+  await upd.replyText(md(i18next.t(successMessageKey, { lng: lng })));
 });
 
 /* -------------------------------- Set new goodbye message handler
@@ -306,21 +248,16 @@ dp.onNewMessage(
       })
       .then((chat) => chat?.language as string);
 
-    try {
-      await prisma.chat.update({
-        where: { id: upd.chat.id },
-        data: {
-          goodbyeMessageText: md.unparse(upd.textWithEntities),
-          goodbyeMessageMedia: upd.media?.fileId || null,
-        },
-      });
+    await prisma.chat.update({
+      where: { id: upd.chat.id },
+      data: {
+        goodbyeMessageText: md.unparse(upd.textWithEntities),
+        goodbyeMessageMedia: upd.media?.fileId || null,
+      },
+    });
 
-      await upd.replyText(md(i18next.t("goodbye.set", { lng: lng })));
-    } catch (err) {
-      await upd.replyText(
-        md(i18next.t("errors:goodbye.setting_goodbye_message", { lng: lng })),
-      );
-    }
+    await upd.replyText(md(i18next.t("ns1:goodbye.set", { lng: lng })));
+
     await state.delete();
     return PropagationAction.Stop;
   },
@@ -352,7 +289,7 @@ dp.onChatMemberUpdate(filters.chatMember("left"), async (upd) => {
 
   const goodbyeMessageText = (
     goodbyeSettings.goodbyeMessageText ||
-    i18next.t("goodbye.default", { lng: lng })
+    i18next.t("ns1:goodbye.default", { lng: lng })
   )
     .replace(/{user_first}/g, upd.user.firstName)
     .replace(/{user_last}/g, upd.user.lastName!)
@@ -372,30 +309,6 @@ dp.onChatMemberUpdate(filters.chatMember("left"), async (upd) => {
     );
   } else {
     await upd.client.sendText(upd.chat.id, md(goodbyeMessageText));
-  }
-});
-
-/* -------------------------------- Delete telegram service msg
- */
-dp.onNewMessage(filters.action("user_left"), async (upd) => {
-  try {
-    const deleteDefaultGoodbye = await prisma.chat
-      .findUnique({
-        where: { id: upd.chat.id },
-        select: { deleteDefaultGoodbye: true },
-      })
-      .then((chat) => chat?.deleteDefaultGoodbye);
-
-    if (!deleteDefaultGoodbye) {
-      return;
-    }
-
-    await upd.delete();
-  } catch (err) {
-    await upd.replyText(
-      md(i18next.t("errors:common.deleting_service_message")),
-    );
-    return;
   }
 });
 

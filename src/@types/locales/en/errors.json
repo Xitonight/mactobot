@@ -5,7 +5,9 @@
     "unknown_args": "**Error: unknown argument(s).**",
     "deleting_service_message": "**Error deleting service message.**",
     "deleting_message": "**Error deleting message.**",
-    "custom": "**Error:**\n{{err}}"
+    "custom": "**Error:**\n{{err}}",
+    "user_not_found": "**Error: user not found.**",
+    "unknown_command": "**Error: {{cmd}} command not found.**"
   },
 
   "language": {
@@ -32,7 +34,10 @@
     "disabling_delete_default": "**Error disabling default goodbye message deletion"
   },
 
-  "help": {
-    "unknown_command": "**Error: {{cmd}} command not found.**"
+  "admin": {
+    "role_exists": "**Error: role already exists.**",
+    "role_not_found": "**Error: role does not exist.**",
+    "no_roles": "**Error: there are no roles in this chat.**",
+    "already_has_role": "**Error: {{user}} already has {{role}} role.**"
   }
 }

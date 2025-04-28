@@ -5,7 +5,9 @@
     "unknown_args": "**Errore: argomento/i sconosciuto/i.**",
     "deleting_service_message": "**Errore durante l'eliminazione del messaggio di servizio.**",
     "deleting_message": "**Errore durante l'eliminazione del messaggio.**",
-    "custom": "**Errore:**\n{{err}}"
+    "custom": "**Errore:**\n{{err}}",
+    "user_not_found": "**Errore: utente non trovato.**",
+    "unknown_command": "**Errore: {{cmd}} non è un comando valido.**"
   },
 
   "language": {
@@ -32,7 +34,10 @@
     "disabling_delete_default": "**Errore durante la disattivazione dell'eliminazione automatica dei messaggi predefiniti**"
   },
 
-  "man": {
-    "unknown_command": "**Errore: {cmd} non è un comando valido.**"
+  "admin": {
+    "role_exists": "**Errore: il ruolo esiste già.**",
+    "role_not_found": "**Errore: il ruolo non esiste.**",
+    "no_roles": "**Errore: non esistono ruoli in questa chat.**",
+    "already_has_role": "**Errore: {{user}} ha già il ruolo {{role}}.**"
   }
 }

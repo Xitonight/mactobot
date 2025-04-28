@@ -48,7 +48,7 @@
 
   "help": {
     "menu": "**🔰 Help menu**\n\nClick a module to open its usage manual.",
-    "command_header": "**Usage for {{cmd}}**"
+    "command_header": "**Usage for /{{cmd}}**"
   },
 
   "disablemod": {
@@ -61,6 +61,13 @@
 
   "ids": {
     "message_id": "**Message ID:**",
-    "user_id": "**User ID:**"
+    "user_id": "**User {{user}} ID:**",
+    "chat_id": "**Chat `{{chat}}` ID:**"
+  },
+
+  "admin": {
+    "roles_header": "**Roles in {{chat}}:**",
+    "created_role": "**Created role {{role}}.**",
+    "role_given": "**Updated role for {{user}}.**"
   }
 }

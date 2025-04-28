@@ -42,19 +42,26 @@
 
   "help": {
     "menu": "**🔰 Guida ai comandi**\n\nClicca sui bottoni qui sotto per aprire il manuale d'uso per quel comando.",
-    "command_header": "**Manuale per {{cmd}}**"
+    "command_header": "**Manuale per /{{cmd}}**"
   },
 
   "disablemod": {
-    "success": "**Module disabled successfully.**"
+    "success": "**Modulo disattivato.**"
   },
 
   "enablemod": {
-    "success": "**Module enabled successfully.**"
+    "success": "**Modulo attivato.**"
   },
 
   "ids": {
-    "message_id": "**ID del messaggio:**",
-    "user_id": "**ID dell'utente:**"
+    "message_id": "**ID messaggio:**",
+    "user_id": "**ID di {{user}}:**",
+    "chat_id": "**ID chat `{{chat}}`:**"
+  },
+
+  "admin": {
+    "roles_header": "**Ruoli in {{chat}}:**",
+    "created_role": "**Creato ruolo {{role}}.**",
+    "role_given": "**Ruolo aggiornato per {{user}}.**"
   }
 }

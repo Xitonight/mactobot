@@ -6,7 +6,9 @@ interface Resources {
       "unknown_args": "**Error: unknown argument(s).**",
       "deleting_service_message": "**Error deleting service message.**",
       "deleting_message": "**Error deleting message.**",
-      "custom": "**Error:**\n{{err}}"
+      "custom": "**Error:**\n{{err}}",
+      "user_not_found": "**Error: user not found.**",
+      "unknown_command": "**Error: {{cmd}} command not found.**"
     },
     "language": {
       "unsupported_lang": "**Error: unsupported language**"
@@ -29,8 +31,11 @@ interface Resources {
       "enabling_delete_default": "**Error enabling default goodbye message deletion",
       "disabling_delete_default": "**Error disabling default goodbye message deletion"
     },
-    "help": {
-      "unknown_command": "**Error: {{cmd}} command not found.**"
+    "admin": {
+      "role_exists": "**Error: role already exists.**",
+      "role_not_found": "**Error: role does not exist.**",
+      "no_roles": "**Error: there are no roles in this chat.**",
+      "already_has_role": "**Error: {{user}} already has {{role}} role.**"
     }
   },
   "ns1": {
@@ -79,7 +84,7 @@ interface Resources {
     },
     "help": {
       "menu": "**🔰 Help menu**\n\nClick a module to open its usage manual.",
-      "command_header": "**Usage for {{cmd}}**"
+      "command_header": "**Usage for /{{cmd}}**"
     },
     "disablemod": {
       "success": "**Module disabled successfully.**"
@@ -89,7 +94,13 @@ interface Resources {
     },
     "ids": {
       "message_id": "**Message ID:**",
-      "user_id": "**User ID:**"
+      "user_id": "**User {{user}} ID:**",
+      "chat_id": "**Chat `{{chat}}` ID:**"
+    },
+    "admin": {
+      "roles_header": "**Roles in {{chat}}:**",
+      "created_role": "**Created role {{role}}.**",
+      "role_given": "**Updated role for {{user}}.**"
     }
   },
   "usage": {
@@ -110,6 +121,14 @@ interface Resources {
     },
     "help": {
       "default": "- Use `/help <command>` to see the manual for that command."
+    },
+    "admin": {
+      "newrole": "- Use `/newrole <name>` to create a new role.",
+      "setrole": "- Use `/setrole <id|username|mention> <name>` (or reply to a message without `<id|username|tag>`) to assign a role to the user.",
+      "roles": "- Use `/roles` to list the roles in this chat."
+    },
+    "ids": {
+      "id": "- Use `/id <username|mention>` (or reply to a message without `<username|mention>`) to get a user's ID.\n- Use `/id` to get the chat's ID."
     }
   }
 }

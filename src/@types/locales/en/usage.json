@@ -19,5 +19,15 @@
 
   "help": {
     "default": "- Use `/help <command>` to see the manual for that command."
+  },
+
+  "admin": {
+    "newrole": "- Use `/newrole <name>` to create a new role.",
+    "setrole": "- Use `/setrole <id|username|mention> <name>` (or reply to a message without `<id|username|tag>`) to assign a role to the user.",
+    "roles": "- Use `/roles` to list the roles in this chat."
+  },
+
+  "ids": {
+    "id": "- Use `/id <username|mention>` (or reply to a message without `<username|mention>`) to get a user's ID.\n- Use `/id` to get the chat's ID."
   }
 }

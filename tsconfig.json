@@ -1,15 +1,5 @@
 {
   "compilerOptions": {
-    "moduleDetection": "force",
-    "module": "Preserve",
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "target": "nodenext",
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
       "@utils/*": [
@@ -18,12 +8,20 @@
       "@modules/*": [
         "src/modules/*"
       ]
-    }
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    },
+    "esModuleInterop": true, // Enables default imports for CommonJS modules
+    "module": "ESNext", // Required for top-level await and import.meta
+    "target": "ESNext", // Required for modern JavaScript features
+    "moduleResolution": "bundler",
+    "plugins": [
+      {
+        "name": "@maxmorozoff/try-catch-tuple-ts-plugin", // For LSP
+        "transform": "@maxmorozoff/try-catch-tuple-ts-plugin/transformer", // For Build
+        // --- SHARED Configuration (applies to both) ---
+        "errorLevel": "error", // Default: "error"
+        "allowIgnoredError": true, // Default: true
+        "checkWrappedCalls": true // Default: true
+      }
+    ]
+  }
 }

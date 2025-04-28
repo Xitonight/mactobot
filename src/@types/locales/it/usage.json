@@ -17,7 +17,17 @@
     "default": "- Usa `/language` per vedere la lingua attualmente in uso e quelle supportate.\n- Usa `/language <lingua>` per cambiare la lingua."
   },
 
-  "man": {
+  "help": {
     "default": "- Usa `/man <comando>` per consultare il manuale per quel comando."
+  },
+
+  "admin": {
+    "newrole": "- Usa `/newrole <nome>` per creare un nuovo ruolo.",
+    "setrole": "- Usa `/setrole <id|username|tag> <nome>` (o rispondi ad un messaggio omettendo `<id|username|tag>`) per assegnare il ruolo all'utente.",
+    "roles": "- Usa `/roles` per listare tutti i ruoli per questa chat."
+  },
+
+  "ids": {
+    "id": "- Usa `/id <username|tag>` (o rispondi ad un messaggio omettendo `<username|mention>`) per ottenere l'ID dell'utente.\n- Usa `/id` per trovare l'ID della chat."
   }
 }

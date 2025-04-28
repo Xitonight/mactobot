@@ -3,10 +3,10 @@ import { Dispatcher, filters } from "@mtcute/dispatcher";
 import { md } from "@mtcute/markdown-parser";
 import { BotKeyboard } from "@mtcute/node";
 import { redis } from "@utils/databases";
-import { Module } from "@modules/.";
+import { Module } from "@modules/index";
 
 const dp = Dispatcher.child();
-const mod = new Module("captcha", "module");
+const mod = new Module(import.meta.dirname);
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffledArray = [...array];

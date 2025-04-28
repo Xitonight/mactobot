@@ -27,39 +27,47 @@ const modules = await getModules(
 );
 
 for (const mod of Object.values(modules)) {
-  console.log(mod.path);
   for (const dispatcher of mod.dispatchers) {
     dp.extend(dispatcher);
   }
 }
 
-dp.onNewMessage(filters.command(/(enable|disable)mod/), async (upd) => {
-  const lng = await getLang(upd.chat.id);
+dp.onNewMessage(
+  filters.and(
+    filters.userId(process.env.OWNER_ID),
+    filters.command(/(enable|disable)mod/),
+  ),
+  async (upd) => {
+    const lng = await getLang(upd.chat.id);
 
-  if (!upd.command[2]) {
+    if (!upd.command[2]) {
+      await upd.replyText(
+        md(i18next.t("errors:common.missing_args", { lng: lng })),
+      );
+      return;
+    }
+
+    if (upd.command[3]) {
+      await upd.replyText(
+        md(i18next.t("errors:common.too_many_args", { lng: lng })),
+      );
+      return;
+    }
+
+    const enabling = upd.command[1] === "enable";
+    modules[upd.command[1]].enabled = enabling;
     await upd.replyText(
-      md(i18next.t("errors:common.missing_args", { lng: lng })),
+      md(
+        i18next.t(
+          enabling ? "ns1:enablemod.success" : "ns1:disablemod.success",
+          {
+            lng: lng,
+          },
+        ),
+      ),
     );
-    return;
-  }
-
-  if (upd.command[3]) {
-    await upd.replyText(
-      md(i18next.t("errors:common.too_many_args", { lng: lng })),
-    );
-    return;
-  }
-
-  const enabling = upd.command[1] === "enable";
-  modules[upd.command[1]].enabled = enabling;
-  await upd.replyText(
-    md(
-      i18next.t(enabling ? "enablemod.success" : "disablemod.success", {
-        lng: lng,
-      }),
-    ),
-  );
-});
+  },
+);
 
 const self = await tg.start({
   botToken: process.env.BOT_TOKEN!,

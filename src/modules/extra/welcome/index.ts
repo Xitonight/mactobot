@@ -4,14 +4,14 @@ import { InputMedia } from "@mtcute/node";
 import { getLang } from "@utils/language";
 import i18next from "@utils/i18n";
 import { prisma } from "@utils/databases";
-import { Module } from "../../";
+import { Module } from "@modules/index";
 
 interface welcomeState {
   newMessageSetterID: number;
 }
 
 const dp = Dispatcher.child<welcomeState>();
-const mod = new Module("welcome", "module", true, import.meta.dirname);
+const mod = new Module({ name: "welcome" });
 
 const getChatSettings = async (chatId: number) => {
   const chat = await prisma.chat.findUnique({
@@ -39,7 +39,7 @@ dp.onNewMessage(filters.command("welcome"), async (upd, state) => {
   if (!upd.command[1]) {
     await upd.replyText(
       md(
-        i18next.t("welcome.settings", {
+        i18next.t("ns1:welcome.settings", {
           lng: lng,
           enable: chatSettings?.welcomeEnabled ? "on" : "off",
           deleteDefault: chatSettings?.deleteDefaultWelcome ? "on" : "off",
@@ -91,8 +91,8 @@ dp.onNewMessage(filters.command("welcome"), async (upd, state) => {
 
     const enableDeleteDefault = upd.command[3] === "on";
     const successMessageKey = enableDeleteDefault
-      ? "welcome.enable_delete_default"
-      : "welcome.disable_delete_default";
+      ? "ns1:welcome.enable_delete_default"
+      : "ns1:welcome.disable_delete_default";
     const errorMessageKey = enableDeleteDefault
       ? "errors:welcome.enabling_delete_default"
       : "errors:welcome.disabling_delete_default";
@@ -116,7 +116,7 @@ dp.onNewMessage(filters.command("welcome"), async (upd, state) => {
     // No args passed, set the new welcome msg
     if (!upd.command[2]) {
       const reply_id = await upd
-        .replyText(md(i18next.t("welcome.enter_new", { lng: lng })))
+        .replyText(md(i18next.t("ns1:welcome.enter_new", { lng: lng })))
         .then((msg) => msg.id);
       await state.set({ newMessageSetterID: reply_id }, 1800);
       return;
@@ -143,7 +143,7 @@ dp.onNewMessage(filters.command("welcome"), async (upd, state) => {
         data: { welcomeMessageText: null, welcomeMessageMedia: null },
       });
 
-      await upd.replyText(md(i18next.t("welcome.reset", { lng: lng })));
+      await upd.replyText(md(i18next.t("ns1:welcome.reset", { lng: lng })));
     } catch (err) {
       await upd.replyText(
         md(i18next.t("errors:welcome.resetting_welcome_message", { lng: lng })),
@@ -170,11 +170,11 @@ dp.onNewMessage(filters.command("welcome"), async (upd, state) => {
         },
       });
 
-      const defaultMessage = md(i18next.t("welcome.default", { lng: lng }));
+      const defaultMessage = md(i18next.t("ns1:welcome.default", { lng: lng }));
 
       if (welcomeMessage?.welcomeMessageMedia) {
         await upd.replyText(
-          md(i18next.t("welcome.message_header", { lng: lng })),
+          md(i18next.t("ns1:welcome.message_header", { lng: lng })),
         );
         await upd.client.sendMedia(
           upd.chat.id,
@@ -184,7 +184,7 @@ dp.onNewMessage(filters.command("welcome"), async (upd, state) => {
         );
       } else {
         await upd.replyText(
-          md`${md(i18next.t("welcome.message_header", { lng: lng }))}\n\n${welcomeMessage?.welcomeMessageText || defaultMessage}`,
+          md`${md(i18next.t("ns1:welcome.message_header", { lng: lng }))}\n\n${welcomeMessage?.welcomeMessageText || defaultMessage}`,
         );
       }
     } catch (err) {
@@ -214,8 +214,8 @@ dp.onNewMessage(filters.command("welcome"), async (upd, state) => {
 
   const enableWelcome = upd.command[1] === "on";
   const successMessageKey = enableWelcome
-    ? "welcome.enabled"
-    : "welcome.disabled";
+    ? "ns1:welcome.enabled"
+    : "ns1:welcome.disabled";
   const errorMessageKey = enableWelcome
     ? "errors:welcome.enabling_welcome_message"
     : "errors:welcome.disabling_welcome_message";
@@ -263,7 +263,7 @@ dp.onNewMessage(
         },
       });
 
-      await upd.replyText(md(i18next.t("welcome.set", { lng: lng })));
+      await upd.replyText(md(i18next.t("ns1:welcome.set", { lng: lng })));
     } catch (err) {
       await upd.replyText(
         md(i18next.t("errors:welcome.setting_welcome_message", { lng: lng })),
@@ -290,7 +290,7 @@ dp.onChatMemberUpdate(
 
     const welcomeMessageText = (
       chatSettings.welcomeMessageText ||
-      i18next.t("welcome.default", { lng: lng })
+      i18next.t("ns1:welcome.default", { lng: lng })
     )
       .replace(/{user_first}/g, upd.user.firstName)
       .replace(/{user_last}/g, upd.user.lastName!)

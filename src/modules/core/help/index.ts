@@ -11,7 +11,7 @@ interface helpState {
 }
 
 const dp = Dispatcher.child<helpState>();
-const mod = new Module("help", "core");
+const mod = new Module(import.meta.dirname);
 
 dp.onNewMessage(filters.command("help"), async (upd, state) => {
   const lng: string = await prisma.chat
@@ -29,10 +29,8 @@ dp.onNewMessage(filters.command("help"), async (upd, state) => {
    */
   if (!upd.command[1]) {
     const modules = i18next.getResourceBundle(lng, "usage");
-    console.log(modules);
     const markup = BotKeyboard.builder();
     for (const mod in modules) {
-      console.log(mod);
       markup.append(
         BotKeyboard.callback(
           `${mod.charAt(0).toUpperCase() + mod.slice(1)}`,
@@ -41,7 +39,7 @@ dp.onNewMessage(filters.command("help"), async (upd, state) => {
       );
     }
     const helpMenuID = await upd
-      .replyText(md(i18next.t("help.menu", { lng: lng })), {
+      .replyText(md(i18next.t("ns1:help.menu", { lng: lng })), {
         replyMarkup: markup.asInline(),
       })
       .then((msg) => msg.id);
@@ -66,7 +64,7 @@ dp.onNewMessage(filters.command("help"), async (upd, state) => {
    */
   if (!i18next.exists(`usage:${upd.command[1]}`)) {
     await upd.replyText(
-      md`${md(i18next.t("errors:help.unknown_command", { lng: lng, cmd: upd.command[1] }))}\n\n${usage}`,
+      md`${md(i18next.t("errors:common.unknown_command", { lng: lng, cmd: upd.command[1] }))}\n\n${usage}`,
     );
     return;
   }
@@ -81,7 +79,7 @@ dp.onNewMessage(filters.command("help"), async (upd, state) => {
   }
 
   await upd.replyText(
-    md`${md(i18next.t("help.command_header", { lng: lng, cmd: upd.command[1] }))}\n\n${md(text)}`,
+    md`${md(i18next.t("ns1:help.command_header", { lng: lng, cmd: upd.command[1] }))}\n\n${md(text)}`,
   );
 });
 
